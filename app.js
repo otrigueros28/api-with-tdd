@@ -4,7 +4,7 @@ const db = require('./db');
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(require('cors')());
+// app.use(require('cors')());
 
 app.get('/api/users', (req, res, next)=>{
   db.models.User.findAll()

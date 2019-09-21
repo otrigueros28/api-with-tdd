@@ -1,6 +1,9 @@
 const Sequelize = require('sequelize');
 const {STRING, UUID, UUIDV4 } =  Sequelize;
-const conn =  new Sequelize( process.env.DATABASE_URL || 'postgres://localhost/users_departments_db');
+const conn =  new Sequelize( process.env.DATABASE_URL || 'postgres://localhost/users_departments_db',
+{
+  logging: false
+});
 
 const User = conn.define('user', {
   id: {
