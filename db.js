@@ -45,6 +45,15 @@ Department.hasMany(User);
 const syncAndSeed = async() => {
   await conn.sync({force: true});
 
+
+  const departments = [
+    {name: "Human"},
+    {name: 'Dev'},
+    {name: 'Sales'}
+  ];
+  const [human, dev, sale] = await Promise.all(departments.map(department => Department.create(department)));
+
+
   const users =[
     {name: 'John', departmentId: sale.id},
     {name: 'Steve', departmentId: sale.id},
@@ -56,13 +65,7 @@ const syncAndSeed = async() => {
 
 
 
-  const departments = [
-    {name: "Human"},
-    {name: 'Dev'},
-    {name: 'Sales'}
-  ];
 
-  const [human, dev, sale] = await Promise.all(departments.map(department => Department.create(department)));
 
   return {
     users: {
@@ -80,7 +83,7 @@ const syncAndSeed = async() => {
   }
 };
 
-// syncAndSeed();
+syncAndSeed();
 module.exports = {
   syncAndSeed,
   models: {
