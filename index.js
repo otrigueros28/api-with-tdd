@@ -1,22 +1,17 @@
-const {expect} = require('chai');
-const db = require('./db');
-const {User, Department} = db.models
-const app = require('supertest')(require('./app'));
-
-  describe('Data start', ()=>{
-    let seed;
-    beforeEach( async()=> seed = await db.syncAndSeed());
-    it('John, Steve, Sarah, Amanda and Chris are all users', ()=>{
-      expect(seed.users.John.name).to.equal('John');
-      expect(seed.users.Steve.name).to.equal('Steve');
-      expect(seed.users.Sarah.name).to.equal('Sarah');
-      expect(seed.users.Amanda.name).to.equal('Amanda');
-      expect(seed.users.Chris.name).to.equal('Chris');
-    })
-    it('user belongs to a department', ()=>{
-      expect(seed.user.John.departmentId).to.equal(seed.departments.sale.id);
-    })
-  })
+const { expect } = require('chai');
+const db = require('../db');
+describe('Models', ()=> {
+  let seed;
+  beforeEach(async()=> seed = await db.syncAndSeed());
+  describe('seeded data', ()=> {
+    it('there are 3 departments', ()=> {
+      expect(Object.keys(seed.departments).length).to.equal(3);
+    });
+    it('there are 3 users', ()=> {
+      expect(Object.keys(seed.users).length).to.equal(4);
+    });
+  });
+});
 
 
 

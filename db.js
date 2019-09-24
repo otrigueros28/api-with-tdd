@@ -35,7 +35,36 @@ const Department = conn.define('department', {
       notEmpty: true
     }
   }
+}, {
+  hooks: {
+    beforeSave: async function(user){
+      try{
+        if(user.departmentId === ''){
+          user.departmentId = null;
+        }
+        if(user.departmentId){
+          const users = await User.findAll({ where: {
+            departmentId: user.departmentId,
+            id: {
+              [Sequelize.Op.ne]: user.id
+            }
+          }});
+          count = users.length;
+          if(count >= 5){
+            const error = new Error();
+            error.message = `there are already ${count} users in this role... sorry`;
+            throw error;
+          }
+        }
+      }
+      catch(ex){
+        console.log(ex);
+        throw ex;
+      }
+    }
+  }
 });
+
 
 
 User.belongsTo(Department);
